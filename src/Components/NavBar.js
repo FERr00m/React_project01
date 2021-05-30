@@ -45,7 +45,6 @@ const LoginBtn = styled.button`
   border: none;
   color: #FFFFFF;
   font-size: 16px;
-  cursor: pointer;
 `;
 
 
@@ -57,7 +56,7 @@ export const NavBar = () => (
       <ImgLogo src={logoImg} alt="logo"/>
       <H1>MrDonald's</H1>
     </Logo>
-    <LoginBtn><LoginImg src={loginImg} />войти</LoginBtn>
+    <LoginBtn><LoginImg src={loginImg} alt="войти" />войти</LoginBtn>
     
   </NavBarStyled>
 );
