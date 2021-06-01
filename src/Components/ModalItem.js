@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ButtonAdd } from './ButtonAdd';
+
 
 const Overlay = styled.div`
   position: fixed;
@@ -29,8 +31,8 @@ const Banner = styled.div`
   margin-bottom: 20px;
 `;
 
-const Container = styled.div`
-  padding: 0 53px 43px 37px;
+const Container = styled.section`
+  padding: 0 37px 43px;
   display: flex;
   flex-direction: column;
   height: 380px;
@@ -41,22 +43,6 @@ const TitleWrap = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
-const BtnAdd = styled.button`
-  display: block;
-  width: 250px;
-  height: 65px;
-  background-color: #299B01;
-  font-size: 21px;
-  color: #FFFFFF;
-  border: none;
-  margin-top: auto;
-  align-self: center;
-  justify-self: flex-end;
-  &:hover {
-    background-color: #299b01c4;
-  }
-`; 
 
 export const ModalItem = ({ openItem, setOpenItem }) => {
 
@@ -77,7 +63,7 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
           <h2>{openItem.price.toLocaleString('ru-RU',
           {style: 'currency', currency: 'RUB'})}</h2>
         </TitleWrap>
-        <BtnAdd>Добавить</BtnAdd>
+        <ButtonAdd>Добавить</ButtonAdd>
       </Container>
        
     </Modal>
