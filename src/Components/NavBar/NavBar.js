@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import logoImg from '../img/logo.svg';
-import loginImg from '../img/sign.svg';
+import logoImg from '../../img/logo.svg';
+import loginImg from '../../img/sign.svg';
 
 const NavBarStyled = styled.header`
   position: fixed;
@@ -9,7 +9,7 @@ const NavBarStyled = styled.header`
   left: 0;
   z-index: 999;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,7 +18,7 @@ const NavBarStyled = styled.header`
   color: white;
 `;
 
-const Logo = styled.div`
+const Logo = styled.a`
   display: flex;
   align-items: center;
 `;
@@ -45,6 +45,11 @@ const LoginBtn = styled.button`
   border: none;
   color: #FFFFFF;
   font-size: 16px;
+  transition: all 0.5s;
+  &:hover {
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 25px rgba(255, 255, 255, 0.2) inset;
+  }
 `;
 
 
@@ -52,7 +57,7 @@ const LoginBtn = styled.button`
 
 export const NavBar = () => (
   <NavBarStyled>
-    <Logo>
+    <Logo href="#">
       <ImgLogo src={logoImg} alt="logo"/>
       <H1>MrDonald's</H1>
     </Logo>
