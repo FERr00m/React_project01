@@ -7,6 +7,7 @@ const CountWrapper = styled.div`
 `;
 
 const CountInput = styled.input`
+  text-align: center;
   width: 50px;
   font-size: 20px;
   margin: 0 5px;

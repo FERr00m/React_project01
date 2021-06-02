@@ -6,17 +6,26 @@ import { formatCurrency } from '../Functions/secondaryFunction';
 
 
 const OrderItemStyled = styled.li`
-  display: flex;
   margin: 15px 0;
+  display: grid;
+  grid-template-columns: 1fr 0.2fr 0.7fr 0.2fr;
+  gap: 0px 0px;
 `;
 
 const ItemName = styled.span`
-  flex-grow: 1;
+  
+`;
+
+const ItemCount = styled.span`
+  margin: 0 auto;
+`;
+
+const ItemToppings = styled.ul`
+  font-size: 14px;
 `;
 
 const ItemPrice = styled.span`
-  margin-left: 20px;
-  margin-right: 10px;
+  margin-left: auto;
   min-width: 65px;
   text-align: right;
 `;
@@ -29,13 +38,22 @@ const TrashBtn = styled.button`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  margin-left: auto;
 `;
 
-export const OrderListItem = ({ order }) => (
+export const OrderListItem = ({ order }) => {
+  
+  return (
   <OrderItemStyled>
     <ItemName>{order.name}</ItemName>
-    <span>{order.count}</span>
+    <ItemCount>{order.count}</ItemCount>
     <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
     <TrashBtn/>
+    {order.topping && <ItemToppings>
+    {order.topping.filter(item => item.checked).map((item, i) => (
+        <li key={i}>+{item.name}</li>
+      ))}
+    </ItemToppings>}
+    
   </OrderItemStyled>
-);
+)};

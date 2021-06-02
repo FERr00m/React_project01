@@ -9,9 +9,7 @@ export const ButtonAdd = styled.button`
   font-size: 21px;
   color: #FFFFFF;
   border: none;
-  margin-top: auto;
-  align-self: center;
-  justify-self: flex-end;
+  border-radius:
   transition: all 0.5s;
   &:hover {
     background-color: transparent;
