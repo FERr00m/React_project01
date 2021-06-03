@@ -16,4 +16,8 @@ export const ButtonAdd = styled.button`
     color: #299B01;
     border: 1px solid #299B01;
   }
+  &:disabled {
+    color: #bbb;
+    background-color: #ccc;
+  }
 `; 
