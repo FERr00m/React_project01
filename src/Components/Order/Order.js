@@ -4,6 +4,7 @@ import { ButtonAdd } from '../Buttons/ButtonAdd';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { projection } from '../Functions/secondaryFunction';
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -46,14 +47,35 @@ const TotalPrice = styled.span`
 `;
 
 const EmptyList = styled.p`
-
+  text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn}) => {
+const rulesData = {
+  name: ['name'],
+  price: ['price'],
+  count: ['count'],
+  toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name).join(', '),
+    str => str ? str : 'no toppings'],
+  choice: ['choice', item => item ? item : 'no choice'],
+}
+
+export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn, firebaseDatabase}) => {
   
   const totalPrice = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
   const totalQty = orders.reduce((result, order) => order.count + result, 0);
+
+  const dataBase = firebaseDatabase();
+
+  const sendOrder = () => {
+    const newOrder = orders.map(projection(rulesData));
+    dataBase.ref('orders').push().set({
+      nameClient: authentification.displayName,
+      email: authentification.email,
+      order: newOrder
+    });
+    setOrders([]);
+  }
 
   function deleteItem(index) {
     if (window.confirm('Удалить?')) {
@@ -87,7 +109,7 @@ export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn}
       </Total>
       <ButtonAdd onClick={
         authentification ?
-        () => {console.log(orders)} :
+        () => {sendOrder()} :
         logIn}>Оформить</ButtonAdd>
     </OrderStyled>
   )
