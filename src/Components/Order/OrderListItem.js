@@ -43,7 +43,7 @@ const TrashBtn = styled.button`
   margin-left: auto;
 `;
 
-export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
+export const OrderListItem = ({ order, index, setOpenItem, setPopup }) => {
 
   const refDeleteBtn = useRef(null);
   
@@ -57,7 +57,9 @@ export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
     <ItemName>{order.name} {order.choice}</ItemName>
     <ItemCount>{order.count}</ItemCount>
     <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-    <TrashBtn ref={refDeleteBtn} onClick={() => deleteItem(index)}/>
+    <TrashBtn ref={refDeleteBtn} onClick={() => {
+      setPopup({index: index});
+    }}/>
     {order.topping && <ItemToppings>
     {order.topping.filter(item => item.checked).map((item, i) => (
         <li key={i}>+{item.name}</li>

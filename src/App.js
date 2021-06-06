@@ -11,6 +11,8 @@ import { useOpenItem } from './Components/Hooks/useOpenItem';
 import { useOrders } from './Components/Hooks/useOrders';
 import { useAuth } from './Components/Hooks/useAuth';
 import { useTitle } from './Components/Hooks/useTitle';
+import { usePopup } from './Components/Hooks/usePopup';
+import { PopupDeleteItem } from './Components/Popup/PopupDeleteItem';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBi-FX65uWv3puJ0Va8u-B9ci-79TBmnuc",
@@ -29,6 +31,8 @@ function App() {
   const auth = useAuth(firebase.auth);
   const openItem = useOpenItem();
   const orders = useOrders();
+  const popup = usePopup();
+  
   useTitle(openItem.openItem);
 
   return (
@@ -40,9 +44,11 @@ function App() {
         {...openItem}
         {...auth}
         firebaseDatabase={firebase.database}
+        {...popup}
       />
       <Menu {...openItem}/>
       { openItem.openItem && <ModalItem {...openItem} {...orders}/>}
+      { popup.popup && <PopupDeleteItem {...popup} {...orders}/>}
       
     </>
     

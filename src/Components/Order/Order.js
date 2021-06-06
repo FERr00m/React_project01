@@ -59,7 +59,7 @@ const rulesData = {
   choice: ['choice', item => item ? item : 'no choice'],
 }
 
-export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn, firebaseDatabase}) => {
+export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn, firebaseDatabase, setPopup}) => {
   
   const totalPrice = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
@@ -77,15 +77,6 @@ export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn,
     setOrders([]);
   }
 
-  function deleteItem(index) {
-    if (window.confirm('Удалить?')) {
-      const newOrders = orders.filter((item, i) => index !== i)
-      setOrders(newOrders);
-      setOpenItem(null);
-    }
-    
-  }
-
   return (
     <OrderStyled>
       <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
@@ -95,9 +86,9 @@ export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn,
           {orders.map((order, index) => <OrderListItem
             key={index}
             order={order}
-            deleteItem={deleteItem}
             index={index}
             setOpenItem={setOpenItem}
+            setPopup={setPopup}
             />)}
         </OrderList> :
         <EmptyList>Список заказов пуст</EmptyList>}
