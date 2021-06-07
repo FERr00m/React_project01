@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import logoImg from '../../img/logo.svg';
 import loginImg from '../../img/sign.svg';
+import { Context } from '../Functions/Context';
 
 const NavBarStyled = styled.header`
   position: fixed;
@@ -33,8 +34,11 @@ const ImgLogo = styled.img`
 `;
 
 const LoginImg = styled.img`
-  width: 30px;
-  margin-bottom: 5px;
+  width: 50px;
+  border-radius: 5px;
+  @media only screen and (max-width: 330px) {
+    width: 30px;
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -44,12 +48,8 @@ const LoginBtn = styled.button`
   background-color: inherit;
   border: none;
   color: #FFFFFF;
-  font-size: 16px;
+  font-size: 14px;
   transition: all 0.5s;
-  &:hover {
-    border-radius: 50%;
-    box-shadow: 0px 0px 10px 25px rgba(255, 255, 255, 0.2) inset;
-  }
 `;
 
 const User = styled.div`
@@ -58,19 +58,44 @@ const User = styled.div`
   align-items: center;
 `;
 
-export const NavBar = ({ authentification, logIn, logOut }) => (
-  <NavBarStyled>
+const Wrap = styled.div`
+display: flex;
+align-items: center;
+gap: 10px;
+@media only screen and (max-width: 330px) {
+  flex-direction: column;
+  }
+`;
+
+const UserTitle = styled.h4`
+  @media only screen and (max-width: 330px) {
+    display: none;
+  }
+`;
+
+export const NavBar = () => {
+  const {auth: { authentification, logIn, logOut }} = useContext(Context);
+  
+  return (
+    <NavBarStyled>
     <Logo href="#">
       <ImgLogo src={logoImg} alt="logo"/>
       <H1>MrDonald's</H1>
     </Logo>
     {authentification ?
-      <User>
-      <p>{authentification.displayName}</p>
+    <Wrap>
       <LoginImg src={authentification.photoURL} alt={authentification.displayName} />
-      <LoginBtn onClick={logOut}>Выйти</LoginBtn>
-      </User> :
-      <LoginBtn onClick={logIn}><LoginImg src={loginImg} alt="войти" />войти</LoginBtn>}
+      <User>
+      <UserTitle>{authentification.displayName}</UserTitle>
+      
+      <LoginBtn onClick={logOut}><h4>ВЫЙТИ</h4></LoginBtn>
+      </User> 
+    </Wrap> :
+      <LoginBtn onClick={logIn}>
+        <LoginImg src={loginImg} alt="войти" />
+        <h4>ВОЙТИ</h4>
+      </LoginBtn>}
     
   </NavBarStyled>
-);
+  )
+};

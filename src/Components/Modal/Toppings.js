@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { Context } from '../Functions/Context';
 
 const ToppingWrap = styled.div`
   max-width: 500px;
@@ -18,7 +19,11 @@ const ToppingCheckbox = styled.input`
   margin-right: 5px;
 `;
 
-export function Toppings({ toppings, checkToppings }) {
+export function Toppings() {
+
+  const {
+    toppings: { toppings, checkToppings }
+  } = useContext(Context);
 
   return (
     <>

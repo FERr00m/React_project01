@@ -6,6 +6,12 @@ const List = styled.ul`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  @media only screen and (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Item = styled.li`
@@ -39,6 +45,9 @@ const Item = styled.li`
     &:after {
       opacity: 0;
     }
+  }
+  @media only screen and (max-width: 700px) {
+    width: 100%;
   }
 `;
 

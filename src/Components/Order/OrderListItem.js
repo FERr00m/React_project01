@@ -11,6 +11,9 @@ const OrderItemStyled = styled.li`
   grid-template-columns: 1fr 0.2fr 0.7fr 0.2fr;
   gap: 0px 0px;
   cursor: pointer;
+  @media only screen and (max-width: 330px) {
+    font-size: 16px;
+  }
 `;
 
 const ItemName = styled.span`
@@ -30,6 +33,9 @@ const ItemPrice = styled.span`
   margin-left: auto;
   min-width: 65px;
   text-align: right;
+  @media only screen and (max-width: 330px) {
+    min-width: auto;
+  }
 `;
 
 const TrashBtn = styled.button`

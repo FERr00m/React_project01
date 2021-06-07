@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { Context } from '../Functions/Context';
 
 const CountWrapper = styled.div`
   display: flex;
@@ -20,7 +21,11 @@ const ButtonCount = styled.button`
   border-radius: 50%;
 `;
 
-export function CountItem({ count, setCount, onChange }) {
+export function CountItem() {
+
+  const {
+    counter: { count, setCount, onChange }
+  } = useContext(Context);
   
   return (
     <CountWrapper>

@@ -1,20 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-
-
-
-const Overlay = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 20;
-`;
+import { Overlay } from '../Styled/StyledComponents';
+import { Context } from '../Functions/Context';
 
 const Popup = styled.div`
   background-color: #FFFFFF;
@@ -34,7 +21,6 @@ const Btn = styled.button`
   font-size: 21px;
   color: #FFFFFF;
   border: none;
-  border-radius:
   transition: all 0.5s;
   &:hover {
     background-color: transparent;
@@ -45,7 +31,13 @@ const Btn = styled.button`
 
 
 
-export const PopupDeleteItem = ({ popup, setPopup, orders, setOrders }) => {
+export const PopupDeleteItem = () => {
+
+  const {
+    popup: { popup, setPopup },
+    orders: { orders, setOrders }
+  } = useContext(Context);
+
   const closePopup = e => {
     if (e.target.id === 'popup') {
       setPopup(null);

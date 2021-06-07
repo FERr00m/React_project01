@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ButtonAdd } from '../Buttons/ButtonAdd';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
-import { projection } from '../Functions/secondaryFunction';
+import { OrderTitle, Total, TotalPrice } from '../Styled/StyledComponents';
+import { Context } from '../Functions/Context';
+import burger from '../../img/burger.svg';
+
+const widthDesktop = 380;
+const widthMobile = 280;
+const widthSmallMobile = 240;
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -13,15 +19,23 @@ const OrderStyled = styled.section`
   top: 80px;
   left: 0;
   background-color: #FFFFFF;
-  width: 380px;
+  width: ${widthDesktop}px;
   height: calc(100% - 80px);
   box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
   padding: 20px;
-`;
-
-const OrderTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 30px;
+  transition: all .5s;
+  @media only screen and (max-width: 700px) {
+    transform: translateX(-${widthDesktop}px);
+    z-index: 99;
+  }
+  @media only screen and (max-width: 450px) {
+    width: ${widthMobile}px;
+    transform: translateX(-${widthMobile}px);
+  }
+  @media only screen and (max-width: 330px) {
+    width: ${widthSmallMobile}px;
+    transform: translateX(-${widthSmallMobile}px);
+  }
 `;
 
 const OrderContent = styled.div`
@@ -32,53 +46,52 @@ const OrderList = styled.ul`
 
 `;
 
-const Total = styled.div`
-  display: flex;
-  margin: 0 35px 30px;
-  & span:first-child {
-    flex-grow: 1;
-  }
-`;
-
-const TotalPrice = styled.span`
-  text-align: right;
-  min-width: 65px;
-  margin-left: 20px;
-`;
-
 const EmptyList = styled.p`
   text-align: center;
 `;
 
-const rulesData = {
-  name: ['name'],
-  price: ['price'],
-  count: ['count'],
-  toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name).join(', '),
-    str => str ? str : 'no toppings'],
-  choice: ['choice', item => item ? item : 'no choice'],
-}
+const BurgerMenu = styled.div`
+  display: none;
+  width: 60px;
+  height: 60px;
+  top: 20px;
+  right: -80px;
+  background-image: url(${burger});
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.4s;
+  &:hover {
+    transform: rotate(45deg);
+  }
+  @media only screen and (max-width: 700px) {
+    display: block;
+  }
+`;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn, firebaseDatabase, setPopup}) => {
-  
+export const Order = () => {
+
+  const {
+    orders: { orders },
+    openItem: { setOpenItem },
+    auth: { authentification, logIn },
+    popup: { setPopup },
+    orderConfirm: { setOrderConfirm }
+  } = useContext(Context);
+
   const totalPrice = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
   const totalQty = orders.reduce((result, order) => order.count + result, 0);
 
-  const dataBase = firebaseDatabase();
-
-  const sendOrder = () => {
-    const newOrder = orders.map(projection(rulesData));
-    dataBase.ref('orders').push().set({
-      nameClient: authentification.displayName,
-      email: authentification.email,
-      order: newOrder
-    });
-    setOrders([]);
+  const toggleOrderMenu = () => {
+    document.getElementById('order').classList.toggle('active-order');
   }
 
+
   return (
-    <OrderStyled>
+    <OrderStyled id="order">
+      <BurgerMenu onClick={toggleOrderMenu} id="cart"/>
       <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
       <OrderContent>
         {orders.length ? 
@@ -93,15 +106,24 @@ export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn,
         </OrderList> :
         <EmptyList>Список заказов пуст</EmptyList>}
       </OrderContent>
-      <Total>
-        <span>Итого</span>
-        <span>{totalQty}</span>
-        <TotalPrice>{formatCurrency(totalPrice)}</TotalPrice>
-      </Total>
-      <ButtonAdd onClick={
-        authentification ?
-        () => {sendOrder()} :
-        logIn}>Оформить</ButtonAdd>
+      
+      {orders.length ? 
+        <>
+          <Total>
+            <span>Итого</span>
+            <span>{totalQty}</span>
+            <TotalPrice>{formatCurrency(totalPrice)}</TotalPrice>
+          </Total>
+          <ButtonAdd onClick={
+            authentification ?
+            () => {setOrderConfirm(true)} :
+            logIn
+          }>
+          Оформить
+          </ButtonAdd>
+        </> : ''
+      }
+      
     </OrderStyled>
   )
 }

@@ -9,7 +9,6 @@ export const ButtonAdd = styled.button`
   font-size: 21px;
   color: #FFFFFF;
   border: none;
-  border-radius:
   transition: all 0.5s;
   &:hover {
     background-color: transparent;
@@ -19,5 +18,9 @@ export const ButtonAdd = styled.button`
   &:disabled {
     color: #bbb;
     background-color: #ccc;
+  }
+  @media only screen and (max-width: 330px) {
+    width: 180px;
+    margin-top: 15px;
   }
 `; 

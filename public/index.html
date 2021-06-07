@@ -20,5 +20,23 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     
+    <script>
+      const root = () => {
+        document.getElementById('root').addEventListener('click', (e) => {
+          if (e.target.closest('#popup')) {
+            return;
+          } 
+          if (e.target.closest('#overlay')) {
+            return;
+          } 
+          if (!e.target.closest('#order')) {
+            document.getElementById('order').classList.remove('active-order');
+          }
+          
+        });
+      };
+
+      root();
+    </script>
   </body>
 </html>

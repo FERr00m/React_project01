@@ -13,6 +13,11 @@ import { useAuth } from './Components/Hooks/useAuth';
 import { useTitle } from './Components/Hooks/useTitle';
 import { usePopup } from './Components/Hooks/usePopup';
 import { PopupDeleteItem } from './Components/Popup/PopupDeleteItem';
+import { OrderConfirm } from './Components/Order/OrderConfirm';
+import { useOrderConfirm } from './Components/Hooks/useOrderConfirm';
+import { Context } from './Components/Functions/Context';
+import { OrderSuccess } from './Components/Order/OrderSuccess';
+import { useSuccessMessage } from './Components/Hooks/useSuccessMessage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBi-FX65uWv3puJ0Va8u-B9ci-79TBmnuc",
@@ -32,25 +37,34 @@ function App() {
   const openItem = useOpenItem();
   const orders = useOrders();
   const popup = usePopup();
-  
+  const orderConfirm = useOrderConfirm();
+  const firebaseDatabase = firebase.database;
+  const successMessage = useSuccessMessage();
+
+
   useTitle(openItem.openItem);
 
   return (
-    <>
+    <Context.Provider value={{
+      auth,
+      openItem,
+      orders,
+      popup,
+      orderConfirm,
+      firebaseDatabase,
+      successMessage
+    }}>
       <GlobalStyle/>
-      <NavBar {...auth}/>
-      <Order
-        {...orders}
-        {...openItem}
-        {...auth}
-        firebaseDatabase={firebase.database}
-        {...popup}
-      />
-      <Menu {...openItem}/>
-      { openItem.openItem && <ModalItem {...openItem} {...orders}/>}
-      { popup.popup && <PopupDeleteItem {...popup} {...orders}/>}
+      <NavBar/>
+      <Order/>
+      <Menu/>
+      { openItem.openItem && <ModalItem/> }
+      { popup.popup && <PopupDeleteItem/> }
+      { orderConfirm.openOrderConfirm && <OrderConfirm/>}
+      { successMessage.successMessage && <OrderSuccess/> }
+
       
-    </>
+    </Context.Provider>
     
   );
 }

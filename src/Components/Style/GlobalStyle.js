@@ -45,7 +45,8 @@ export const GlobalStyle = createGlobalStyle`
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: Pacifico;
     padding: 0;
     margin: 0;
@@ -59,5 +60,9 @@ export const GlobalStyle = createGlobalStyle`
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+  }
+
+  .active-order {
+    transform: translateX(0px);
   }
 `;
